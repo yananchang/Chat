@@ -14,6 +14,10 @@ public class ChatServer {
 		DataInputStream dis = null;
 		try {
 			ss = new ServerSocket(8888);
+		}catch (BindException e){
+			System.out.println("socket in use......");
+			System.out.println("Please turn off the program and restart");
+			System.exit(0);
 		}catch (IOException e){
 			e.printStackTrace();
 		}
@@ -31,13 +35,13 @@ System.out.println("a client connected!");
 					String str = dis.readUTF();
 					System.out.println(str);
 				}
-				dis.close();
-
+				//dis.close();
 			}
-		} catch (Exception e) {
-			
-			//e.printStackTrace();
+		} catch (EOFException e){
 			System.out.println("Client closed!");
+		}
+		catch (IOException e) {
+			e.printStackTrace();
 		}finally{
 			try {
 				if(dis != null) dis.close();
